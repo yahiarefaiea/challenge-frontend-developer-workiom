@@ -1,50 +1,73 @@
 // SASS variables
-$background-color: #333
-$header-color: white
+$background-color: #f4f4f4
+$header-color: #333
 $border-color: #ccc
 $button-bg-color: #007bff
 $button-hover-bg-color: #0056b3
+$error-color: #e74c3c
 $input-padding: 0.5rem
 $section-padding: 1rem
 $grid-gap: 1rem
+$transition-speed: 0.3s
 
-
-/* Basic styling for header */
-header
+body
+  font-family: 'Arial', sans-serif
   background-color: $background-color
-  color: $header-color
-  padding: $section-padding 0
-  text-align: center
+  margin: 0
+  padding: 0
+  box-sizing: border-box
 
-/* Flexbox for the search section */
+header
+  background-color: $header-color
+  color: white
+  padding: $section-padding
+  text-align: center
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2)
+
 .search-section
   display: flex
   justify-content: center
+  align-items: center
   gap: $grid-gap
   padding: $section-padding
+  background-color: white
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1)
+  border-radius: 4px
+  margin: $section-padding 0
+
   input
     flex: 1
     padding: $input-padding
     border: 1px solid $border-color
     border-radius: 4px
+    outline: none
+    transition: border-color $transition-speed
+    &:focus
+      border-color: $button-bg-color
+
   button
-    padding: $input-padding * 2
+    padding: $input-padding * 1.5
     border: none
     border-radius: 4px
     background-color: $button-bg-color
-    color: $header-color
+    color: white
     cursor: pointer
+    transition: background-color $transition-speed
     &:hover
       background-color: $button-hover-bg-color
 
-/* Main content area styling */
+.error
+  color: $error-color
+  text-align: center
+  margin-top: $section-padding
+  font-weight: bold
+
 .content-area
   padding: $section-padding
   display: grid
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))
   gap: $grid-gap
 
-/* Responsive design using Media Queries */
 @media screen and (max-width: 768px)
   .search-section
     flex-direction: column

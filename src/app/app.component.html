@@ -5,13 +5,33 @@
 
 <!-- Search and Refresh Section -->
 <section class="search-section">
-  <input type="text" placeholder="Enter YouTube Channel ID" [(ngModel)]="channelId">
-  <button (click)="refreshVideos()">Refresh</button>
+  <input [(ngModel)]="channelId" (keyup.enter)="onSearch()" placeholder="Enter YouTube Channel ID">
+  <button (click)="onSearch()">Search</button>
+  <button (click)="onRefresh()">Refresh Videos</button>
 </section>
+
+<!-- Error Display -->
+<div *ngIf="error" class="error">
+  {{ error }}
+</div>
 
 <!-- Main Content Area -->
 <main class="content-area">
-  <!-- Video cards will be populated here -->
+  <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let movie of movies" cdkDrag>
+      <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+      {{movie}}
+    </div>
+  </div>
+
+  <div cdkDropList (cdkDropListDropped)="onDrop($event)">
+    <app-video-card
+      *ngFor="let video of videos; let index = index"
+      [video]="video"
+      [index]="index"
+      cdkDrag>
+    </app-video-card>
+  </div>
 </main>
 
 <router-outlet></router-outlet>
