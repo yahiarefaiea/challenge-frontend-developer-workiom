@@ -1,30 +1,22 @@
-<!-- Header -->
-<header>
-  <h1>YouTube Channel Browser</h1>
-</header>
+<main class="main-area">
+  <section class="video-area">
+    Video player placeholder
+  </section>
 
-<!-- Search and Refresh Section -->
-<section class="search-section">
-  <input [(ngModel)]="channelId" (keyup.enter)="onSearch()" placeholder="Enter YouTube Channel ID">
-  <button (click)="onSearch()">Search</button>
-  <button (click)="onRefresh()">Refresh Videos</button>
-</section>
+  <aside class="list-area">
+    <div class="search-section">
+      <input [(ngModel)]="channelId" (keyup.enter)="onSearch()" placeholder="Search YouTube Channel ID">
+      <button (click)="onSearch()">Search</button>
+      <button (click)="onRefresh()">Refresh Videos</button>
+    </div>
 
-<!-- Error Display -->
-<div *ngIf="error" class="error">
-  {{ error }}
-</div>
-
-<!-- Main Content Area -->
-<main class="content-area">
-  <div cdkDropList (cdkDropListDropped)="onDrop($event)">
-    <app-video-card
-      *ngFor="let video of videos; let index = index"
-      [video]="video"
-      [index]="index"
-      cdkDrag>
-    </app-video-card>
-  </div>
+    <div cdkDropList class="video-list" (cdkDropListDropped)="onDrop($event)">
+      <div class="video-box" *ngFor="let video of videos; let index = index" cdkDrag>
+        <div class="video-placeholder" *cdkDragPlaceholder></div>
+        <app-video-card class="video-card-container" [video]="video" [index]="index"></app-video-card>
+      </div>
+    </div>
+  </aside>
 </main>
 
 <router-outlet></router-outlet>
