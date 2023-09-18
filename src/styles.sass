@@ -1,1 +1,206 @@
-/* You can add global styles to this file, and also import other style files */
+$color-skyblue: #b4d4df
+$color-darkblue: #68909d
+$color-pink: #ffd0c7
+$color-sugarcane: #fdf2e6
+$color-white: #fff
+
+$baseline: 28px
+$container-width: 1200px
+
+$video-aspect-ratio: (9 / 16) * 100% // for 16:9 aspect ratio
+$title-color: $color-darkblue
+$title-font-size: 16px
+$textarea-border-color: #e1e1e1
+$textarea-font-size: 14px
+
+
+*, *:before, *:after
+  box-sizing: border-box
+
+html, body
+  height: 100%
+  margin: 0
+  padding: 0
+
+body
+  background-color: $color-skyblue
+  font-family: 'Arial', sans-serif
+
+header, main, section
+  margin: 0
+  padding: 0
+
+// main area
+.main-area
+  display: flex
+  justify-content: space-between
+  align-items: start
+  gap: $baseline
+  width: 100%
+  max-width: $container-width
+  margin: 0 auto
+  margin-top: $baseline*2
+  padding: 0 $baseline
+  .video-area
+    flex: 1 1 0
+    width: 65%
+  .list-area
+    flex: 0 1 auto
+    width: 35%
+
+.video-card-container
+  width: 100%
+
+.video-card
+  display: flex
+  flex-direction: column
+  width: 100%
+  margin-bottom: 0
+  padding: $baseline/2
+  border-radius: $baseline/2
+  background-color: $color-white
+  transition: transform 0.3s ease, box-shadow 0.3s ease
+
+.video-area
+  position: relative
+  width: 100%
+  height: 500px
+  margin-top: $baseline*5
+  border-radius: $baseline
+  line-height: 500px
+  text-align: center
+  font-size: $baseline
+  font-weight: 700
+  white-space: nowrap
+  background-color: $color-darkblue
+  color: darken($color-darkblue, 10%)
+  &:before
+    content: 'Youtube re-order player'
+    display: block
+    position: absolute
+    top: -$baseline*2 - $baseline/2
+    left: $baseline/2
+    line-height: $baseline*2
+
+.search-section
+  margin-bottom: $baseline/2
+
+  input, button
+    height: $baseline*2
+    padding: 0 $baseline
+    border-radius: $baseline
+    border: 0
+    font-family: inherit
+  input
+    display: block
+    width: 100%
+    color: $color-darkblue
+    background-color: $color-sugarcane
+    margin-bottom: $baseline/2
+    &:focus
+      outline: 2px solid $color-darkblue
+  button
+    background-color: $color-darkblue
+    color: $color-sugarcane
+    font-weight: 600
+    &:last-child
+      margin-left: $baseline/2
+    &:hover
+      cursor: pointer
+
+// drag and drop
+.video-box
+  cursor: move
+  display: flex
+  flex-direction: row
+  align-items: center
+  justify-content: space-between
+  padding-bottom: $baseline
+
+// drag and drop style
+.cdk-drag-preview
+  border-radius: $baseline/2
+
+.cdk-drag-animating
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
+
+.video-list.cdk-drop-list-dragging .video-box:not(.cdk-drag-placeholder)
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
+
+.video-placeholder
+  position: relative
+  height: $baseline*5 + $baseline
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
+  &:before
+    display: block
+    position: absolute
+    top: 0
+    right: 0
+    left: 0
+    height: $baseline*5
+  &:before
+    content: 'Drop video here'
+    color: darken($color-pink, 10%)
+    font-family: inherit
+    font-weight: 600
+    text-align: center
+    line-height: $baseline*5
+    border: dashed 3px darken($color-pink, 5%)
+    border-radius: $baseline/2
+    background-color: $color-pink
+
+.video-card
+  .iframe-container
+    position: relative
+    width: 100%
+    padding-bottom: $video-aspect-ratio
+    margin-bottom: $baseline/4
+    overflow: hidden
+    iframe
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      border: none
+      border-radius: $baseline/4
+
+  h2
+    padding: 0 $baseline/4
+    font-size: $title-font-size
+    color: $title-color
+    text-align: left
+    font-weight: 700
+
+  textarea
+    margin: 0
+    height: $baseline*1.6
+    width: 120px
+    padding: $baseline/2
+    border: none
+    border-radius: $baseline/4
+    font-family: inherit
+    font-size: $textarea-font-size
+    resize: none
+    color: $color-darkblue
+    background-color: $color-sugarcane
+    transition: width 0.3s ease, height 0.3s ease
+    &:focus
+      outline: 2px solid $color-darkblue
+    &:focus,
+    &:not(:placeholder-shown)
+      width: 100%
+      height: 100px
+
+
+@media screen and (max-width: 850px)
+  .main-area
+    flex-direction: column
+    .video-area, .list-area
+      width: 100%
+    .video-area
+      flex: 0 1 auto
+      height: 200px
+      line-height: 200px
+      font-size: 24px
+      margin-top: 0
