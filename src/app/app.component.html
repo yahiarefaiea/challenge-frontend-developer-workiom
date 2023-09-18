@@ -17,13 +17,6 @@
 
 <!-- Main Content Area -->
 <main class="content-area">
-  <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-    <div class="example-box" *ngFor="let movie of movies" cdkDrag>
-      <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-      {{movie}}
-    </div>
-  </div>
-
   <div cdkDropList (cdkDropListDropped)="onDrop($event)">
     <app-video-card
       *ngFor="let video of videos; let index = index"
