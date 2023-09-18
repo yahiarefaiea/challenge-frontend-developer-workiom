@@ -1,0 +1,58 @@
+// SASS Variables
+$card-border-color: #e1e1e1
+$card-bg-color: #fff
+$card-shadow-color: rgba(0, 0, 0, 0.1)
+$card-hover-shadow-color: rgba(0, 0, 0, 0.12)
+$video-aspect-ratio: (9 / 16) * 100% // for 16:9 aspect ratio
+$title-color: #333
+$title-font-size: 18px
+$textarea-border-color: #e1e1e1
+$textarea-font-size: 14px
+
+.video-card
+  display: flex
+  flex-direction: column
+  align-items: center
+  border: 1px solid $card-border-color
+  border-radius: 8px
+  padding: 16px
+  margin-bottom: 16px
+  box-shadow: 0 2px 4px $card-shadow-color
+  background-color: $card-bg-color
+  max-width: 480px
+  transition: transform 0.3s ease, box-shadow 0.3s ease
+  &:hover
+    transform: translateY(-4px)
+    box-shadow: 0 4px 8px $card-hover-shadow-color
+
+  .iframe-container
+    position: relative
+    width: 100%
+    padding-bottom: $video-aspect-ratio
+    margin-bottom: 16px
+    overflow: hidden
+    iframe
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
+      border: none
+      border-radius: 8px
+
+  h2
+    font-size: $title-font-size
+    margin-bottom: 12px
+    color: $title-color
+    text-align: center
+    font-weight: 500
+
+  textarea
+    width: 100%
+    min-height: 100px
+    padding: 8px
+    border: 1px solid $textarea-border-color
+    border-radius: 4px
+    font-family: inherit
+    font-size: $textarea-font-size
+    resize: vertical

@@ -1,0 +1,16 @@
+<div class="video-card">
+  <div class="iframe-container">
+    <iframe
+      [src]="'https://www.youtube.com/embed/' + video.id | safeVideoUrl"
+      frameborder="0"
+      title="YouTube Video - {{ video.title }}"
+      allowfullscreen
+    ></iframe>
+  </div>
+  <h2>{{ video.title }}</h2>
+  <textarea
+    [(ngModel)]="video.note"
+    (change)="onNoteChange(video.id, video.note)"
+    placeholder="Write a note..."
+  ></textarea>
+</div>
