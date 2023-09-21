@@ -2,20 +2,20 @@ import { State, Action, StateContext } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { tap, catchError } from 'rxjs/operators';
 import { YouTubeService } from '../services/youtube/youtube.service';
-import { YouTubeResponseItem } from '../services/youtube/youtube.service.types';
-import { Video, AppStateModel } from './app.state.model';
 import {
   FetchVideos,
+  AppendVideos,
   UpdateVideoOrder,
   UpdateVideoNote,
   SetError
 } from './app.actions';
+import { Video, AppStateModel } from './app.state.model';
+import { mapToVideos, findChannel } from './app.utils';
 
 @State<AppStateModel>({
   name: 'app',
   defaults: {
-    videos: [],
-    channelId: ''
+    channels: []
   }
 })
 
@@ -27,54 +27,57 @@ export class AppState {
   @Action(FetchVideos)
   fetchVideos(ctx: StateContext<AppStateModel>, action: FetchVideos) {
     return this.youtubeService.getVideosByChannelId(action.channelId).pipe(
-      tap((response: { items: YouTubeResponseItem[] }) => {
-        const currentState = ctx.getState();
-
-        // Map the new data from YouTube
-        const fetchedVideos: Video[] = response.items.map(item => ({
-          id: item.id.videoId,
-          title: item.snippet.title,
-          note: ''
-        }));
-
-        // Merge the fetched videos with existing ones, preserving notes and order
-        const mergedVideos = fetchedVideos.map(fetchedVideo => {
-          const existingVideo = currentState.videos.find(video => video.id === fetchedVideo.id);
-          return existingVideo || fetchedVideo;
-        });
-
-        // Add any videos that were in the state but not in the fetched data (if needed)
-        currentState.videos.forEach(video => {
-          if (!fetchedVideos.some(fv => fv.id === video.id)) {
-            mergedVideos.push(video);
-          }
-        });
-
-        ctx.patchState({
-          videos: mergedVideos,
-          channelId: action.channelId,
-          lastSearchedChannelId: action.channelId
-        });
-      }),
+      tap(response => ctx.dispatch(new AppendVideos(action.channelId, mapToVideos(response.items)))),
       catchError(err => {
-        console.error('Failed to fetch videos:', err);
         ctx.dispatch(new SetError(err.message));
         return [];
       })
     );
   }
 
+  @Action(AppendVideos)
+  appendVideos(ctx: StateContext<AppStateModel>, action: AppendVideos) {
+    const currentState = ctx.getState();
+    const channel = findChannel(currentState.channels, action.channelId);
+
+    const videos = channel ? [...channel.videos, ...action.videos] : action.videos;
+
+    const updatedChannels = channel
+      ? currentState.channels.map(c => c.channelId === action.channelId ? {...c, videos} : c)
+      : [...currentState.channels, { channelId: action.channelId, videos }];
+
+    ctx.patchState({ channels: updatedChannels, lastSearchedChannelId: action.channelId });
+  }
+
   @Action(UpdateVideoOrder)
   updateVideoOrder(ctx: StateContext<AppStateModel>, action: UpdateVideoOrder) {
-    ctx.patchState({ videos: action.videos });
+    const currentChannels = [...ctx.getState().channels];
+    const channel = findChannel(currentChannels, action.channelId);
+
+    if (channel) {
+      channel.videos = action.videos;
+      ctx.patchState({ channels: currentChannels });
+    }
   }
 
   @Action(UpdateVideoNote)
   updateNote(ctx: StateContext<AppStateModel>, action: UpdateVideoNote) {
-    const updatedVideos = ctx.getState().videos.map(video =>
-      video.id === action.videoId ? {...video, note: action.note} : video
-    );
+    const currentChannels = [...ctx.getState().channels];
+    const lastSearchedChannelId = ctx.getState().lastSearchedChannelId;
 
-    ctx.patchState({ videos: updatedVideos });
+    if (!lastSearchedChannelId) {
+      console.error('No last searched channel id found');
+      return;
+    }
+
+    const channel = findChannel(currentChannels, lastSearchedChannelId);
+
+    if (channel) {
+      const videoToUpdate = channel.videos.find((video: Video) => video.id === action.videoId);
+      if (videoToUpdate) {
+        videoToUpdate.note = action.note;
+        ctx.patchState({ channels: currentChannels });
+      }
+    }
   }
 }

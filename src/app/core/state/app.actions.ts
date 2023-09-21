@@ -5,9 +5,14 @@ export class FetchVideos {
   constructor(public channelId: string) {}
 }
 
+export class AppendVideos {
+  static readonly type = '[App] AppendVideos';
+  constructor(public channelId: string, public videos: Video[]) {}
+}
+
 export class UpdateVideoOrder {
   static readonly type = '[App] UpdateVideoOrder';
-  constructor(public videos: Video[]) {}
+  constructor(public channelId: string, public videos: Video[]) {}
 }
 
 export class UpdateVideoNote {

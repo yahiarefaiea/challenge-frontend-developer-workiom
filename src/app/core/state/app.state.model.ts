@@ -4,9 +4,14 @@ export interface Video {
   note: string;
 }
 
-export interface AppStateModel {
-  videos: Video[];
+export interface Channel {
   channelId: string;
+  videos: Video[];
+}
+
+export interface AppStateModel {
+  channels: Channel[];
   lastSearchedChannelId?: string;
+  nextPageToken?: string;
   errorMessage?: string;
 }
