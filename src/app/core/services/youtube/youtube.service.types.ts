@@ -10,4 +10,5 @@ export interface YouTubeResponseItem {
 
 export interface YouTubeResponse {
   items: YouTubeResponseItem[];
+  nextPageToken?: string;
 }
