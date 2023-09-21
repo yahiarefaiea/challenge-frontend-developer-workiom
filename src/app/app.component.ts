@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import Muuri from 'muuri';
 import { Store } from '@ngxs/store';
 import { Video } from './core/state/app.state.model';
 import { FetchVideos, UpdateVideoOrder } from './core/state/app.actions';
@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 export class AppComponent implements OnDestroy {
   channelId: string = '';
   videos: Video[] = [];
+  muuriGrid: any;
+  dragStartIndex: number | null = null;
   error: string | null = null;
   private subscription: Subscription = new Subscription();
 
@@ -26,6 +28,33 @@ export class AppComponent implements OnDestroy {
     this.subscription.add(videos$);
   }
 
+  ngAfterViewInit() {
+    this.muuriGrid = new Muuri('.muuri-grid', {
+      items: '.muuri-item',
+      dragEnabled: true,
+      dragSort: () => {
+        return [this.muuriGrid];
+      }
+    })
+    .on('dragStart', (item) => {
+      this.dragStartIndex = this.muuriGrid.getItems().indexOf(item);
+    })
+    .on('dragEnd', (item) => {
+      if (this.dragStartIndex !== null) {
+        const oldIndex = this.dragStartIndex;
+        const newIndex = this.muuriGrid.getItems().indexOf(item);
+        this.handleReorder(oldIndex, newIndex);
+      }
+      this.dragStartIndex = null;
+    });
+  }
+
+  handleReorder(oldIndex: number, newIndex: number) {
+    const movedVideo = this.videos.splice(oldIndex, 1)[0];
+    this.videos.splice(newIndex, 0, movedVideo);
+    this.store.dispatch(new UpdateVideoOrder(this.videos));
+  }
+
   onSearch(): void {
     if (this.channelId !== this.store.selectSnapshot(state => state.app.lastSearchedChannelId)) {
       this.store.dispatch(new FetchVideos(this.channelId));
@@ -37,11 +66,6 @@ export class AppComponent implements OnDestroy {
     if (currentChannelId) {
       this.store.dispatch(new FetchVideos(currentChannelId));
     }
-  }
-
-  onDrop(event: CdkDragDrop<string[]>): void {
-    moveItemInArray(this.videos, event.previousIndex, event.currentIndex);
-    this.store.dispatch(new UpdateVideoOrder(this.videos));
   }
 
   ngOnDestroy(): void {
