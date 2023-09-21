@@ -23,7 +23,7 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
     BrowserModule,
     AppRoutingModule,
     NgxsModule.forRoot([AppState]),
-    NgxsStoragePluginModule.forRoot({ key: 'app' }),
+    NgxsStoragePluginModule.forRoot({ key: ['app'] }),
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
