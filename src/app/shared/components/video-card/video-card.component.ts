@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { UpdateVideoNote } from '../../../core/state/app.actions';
 import { Video } from '../../../core/state/app.state.model';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-video-card',
@@ -18,13 +17,13 @@ export class VideoCardComponent implements OnInit {
   };
 
   showVideo: boolean = false;
-  safeUrl!: SafeResourceUrl;
+  videoUrl: string = '';
   thumbnailUrl: string = '';
 
-  constructor(private store: Store, private sanitizer: DomSanitizer) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.video.id);
+    this.videoUrl = 'https://www.youtube.com/embed/' + this.video.id;
     this.thumbnailUrl = `https://img.youtube.com/vi/${this.video.id}/0.jpg`;
   }
 
