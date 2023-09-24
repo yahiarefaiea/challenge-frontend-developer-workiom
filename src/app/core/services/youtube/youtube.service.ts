@@ -20,7 +20,7 @@ export class YouTubeService {
       .set('channelId', channelId)
       .set('order', 'date')
       .set('part', 'snippet')
-      .set('maxResults', '50');
+      .set('maxResults', '8');
 
     if (pageToken) {
       params = params.set('pageToken', pageToken);
