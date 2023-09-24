@@ -17,12 +17,19 @@ export class VideoCardComponent implements OnInit {
     note: ''
   };
 
+  showVideo: boolean = false;
   safeUrl!: SafeResourceUrl;
+  thumbnailUrl: string = '';
 
   constructor(private store: Store, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + this.video.id);
+    this.thumbnailUrl = `https://img.youtube.com/vi/${this.video.id}/0.jpg`;
+  }
+
+  toggleVideo(): void {
+    this.showVideo = !this.showVideo;
   }
 
   onNoteChange(videoId: string, newNote: string): void {

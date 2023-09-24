@@ -1,7 +1,10 @@
 <div class="video-card">
-  <div class="iframe-container">
+  <div class="thumbnail-container" *ngIf="!showVideo" (click)="toggleVideo()">
+    <img [src]="thumbnailUrl" alt="{{ video.title }} Thumbnail">
+  </div>
+  <div class="iframe-container" *ngIf="showVideo">
     <iframe
-      [src]="'https://www.youtube.com/embed/' + video.id | safeVideoUrl"
+      [src]="safeUrl"
       frameborder="0"
       title="YouTube Video - {{ video.title }}"
       allowfullscreen
