@@ -83,13 +83,6 @@ export class AppComponent implements OnDestroy {
     this.fetchVideos(this.channelId);
   }
 
-  onRefresh(): void {
-    const currentChannelId = this.store.selectSnapshot(state => state.app.lastSearchedChannelId);
-    if (currentChannelId) {
-      this.fetchVideos(currentChannelId);
-    }
-  }
-
   private fetchVideos(channelId: string): void {
     this.store.dispatch(new FetchVideos(channelId));
     const currentChannel = this.store.selectSnapshot((state: { app: AppStateModel }) => state.app.channels)
