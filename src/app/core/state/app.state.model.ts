@@ -12,6 +12,6 @@ export interface Channel {
 export interface AppStateModel {
   channels: Channel[];
   lastSearchedChannelId?: string;
-  nextPageToken?: string;
+  nextPageToken?: string | null;
   errorMessage?: string;
 }

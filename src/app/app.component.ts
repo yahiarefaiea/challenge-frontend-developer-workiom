@@ -2,7 +2,11 @@ import { Component, OnDestroy } from '@angular/core';
 import Muuri from 'muuri';
 import { Store } from '@ngxs/store';
 import { Video, AppStateModel } from './core/state/app.state.model';
-import { FetchVideos, AppendVideos, UpdateVideoOrder } from './core/state/app.actions';
+import {
+  FetchVideos,
+  ResetPageToken,
+  UpdateVideoOrder
+} from './core/state/app.actions';
 import { Subscription } from 'rxjs';
 import { isEqual } from 'lodash';
 
@@ -65,29 +69,23 @@ export class AppComponent implements OnDestroy {
     });
   }
 
-  loadMore(): void {
-    const currentChannelId = this.store.selectSnapshot(state => state.app.lastSearchedChannelId);
+  fetchVideos(channelId: string): void {
     const nextPageToken = this.store.selectSnapshot(state => state.app.nextPageToken);
-    if (currentChannelId && nextPageToken) {
-      this.store.dispatch(new AppendVideos(currentChannelId, nextPageToken));
-    }
+    this.store.dispatch(new FetchVideos(channelId, nextPageToken));
+    const currentChannel = this.store.selectSnapshot((state: { app: AppStateModel }) => state.app.channels)
+      .find(channel => channel.channelId === channelId);
+    this.videos = currentChannel ? currentChannel.videos : [];
+  }
+
+  handleSearch(): void {
+    this.store.dispatch(new ResetPageToken());
+    this.fetchVideos(this.channelId);
   }
 
   handleReorder(oldIndex: number, newIndex: number) {
     const movedVideo = this.videos.splice(oldIndex, 1)[0];
     this.videos.splice(newIndex, 0, movedVideo);
     this.store.dispatch(new UpdateVideoOrder(this.channelId, this.videos));
-  }
-
-  onSearch(): void {
-    this.fetchVideos(this.channelId);
-  }
-
-  private fetchVideos(channelId: string): void {
-    this.store.dispatch(new FetchVideos(channelId));
-    const currentChannel = this.store.selectSnapshot((state: { app: AppStateModel }) => state.app.channels)
-      .find(channel => channel.channelId === channelId);
-    this.videos = currentChannel ? currentChannel.videos : [];
   }
 
   ngOnDestroy(): void {

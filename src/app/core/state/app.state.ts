@@ -4,7 +4,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { YouTubeService } from '../services/youtube/youtube.service';
 import {
   FetchVideos,
-  AppendVideos,
+  ResetPageToken,
   UpdateVideoOrder,
   UpdateVideoNote,
   SetError
@@ -26,8 +26,17 @@ export class AppState {
 
   @Action(FetchVideos)
   fetchVideos(ctx: StateContext<AppStateModel>, action: FetchVideos) {
-    return this.youtubeService.getVideosByChannelId(action.channelId).pipe(
-      tap(response => ctx.dispatch(new AppendVideos(action.channelId, mapToVideos(response.items)))),
+    return this.youtubeService.getVideosByChannelId(action.channelId, action.nextPageToken).pipe(
+      tap(response => {
+        const currentState = ctx.getState();
+        const channel = findChannel(currentState.channels, action.channelId);
+        const videos = channel ? [...channel.videos, ...mapToVideos(response.items)] : mapToVideos(response.items);
+        const updatedChannels = channel
+          ? currentState.channels.map(c => c.channelId === action.channelId ? {...c, videos} : c)
+          : [...currentState.channels, { channelId: action.channelId, videos }];
+
+        ctx.patchState({ channels: updatedChannels, lastSearchedChannelId: action.channelId, nextPageToken: response.nextPageToken });
+      }),
       catchError(err => {
         ctx.dispatch(new SetError(err.message));
         return [];
@@ -35,18 +44,9 @@ export class AppState {
     );
   }
 
-  @Action(AppendVideos)
-  appendVideos(ctx: StateContext<AppStateModel>, action: AppendVideos) {
-    const currentState = ctx.getState();
-    const channel = findChannel(currentState.channels, action.channelId);
-
-    const videos = channel ? [...channel.videos, ...action.videos] : action.videos;
-
-    const updatedChannels = channel
-      ? currentState.channels.map(c => c.channelId === action.channelId ? {...c, videos} : c)
-      : [...currentState.channels, { channelId: action.channelId, videos }];
-
-    ctx.patchState({ channels: updatedChannels, lastSearchedChannelId: action.channelId });
+  @Action(ResetPageToken)
+  resetPageToken(ctx: StateContext<AppStateModel>) {
+    ctx.patchState({ nextPageToken: null });
   }
 
   @Action(UpdateVideoOrder)

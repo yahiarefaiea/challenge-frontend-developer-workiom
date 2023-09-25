@@ -2,12 +2,11 @@ import { Video } from './app.state.model';
 
 export class FetchVideos {
   static readonly type = '[App] FetchVideos';
-  constructor(public channelId: string) {}
+  constructor(public channelId: string, public nextPageToken?: string) {}
 }
 
-export class AppendVideos {
-  static readonly type = '[App] AppendVideos';
-  constructor(public channelId: string, public videos: Video[]) {}
+export class ResetPageToken {
+  static readonly type = '[App] ResetPageToken';
 }
 
 export class UpdateVideoOrder {
