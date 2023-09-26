@@ -1,4 +1,4 @@
-import { YouTubeResponseItem } from '../services/youtube/youtube.service.types';
+import { YouTubeResponseItem } from 'src/app/core/services/youtube/youtube.service.types';
 import { Video, Channel } from './app.state.model';
 
 export function mapToVideos(items: YouTubeResponseItem[]): Video[] {

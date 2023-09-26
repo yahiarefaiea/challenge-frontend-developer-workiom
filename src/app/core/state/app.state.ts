@@ -1,7 +1,7 @@
 import { State, Action, StateContext } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { tap, catchError } from 'rxjs/operators';
-import { YouTubeService } from '../services/youtube/youtube.service';
+import { YouTubeService } from 'src/app/core/services/youtube/youtube.service';
 import {
   FetchVideos,
   ResetPageToken,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { YouTubeResponseItem, YouTubeResponse } from './youtube.service.types';
+import { YouTubeResponse } from './youtube.service.types';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

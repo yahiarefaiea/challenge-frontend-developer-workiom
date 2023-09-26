@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { UpdateVideoNote } from '../../../core/state/app.actions';
-import { Video } from '../../../core/state/app.state.model';
+import { UpdateVideoNote } from 'src/app/core/state/app.actions';
+import { Video } from 'src/app/core/state/app.state.model';
 
 @Component({
   selector: 'app-video-card',
