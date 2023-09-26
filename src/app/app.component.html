@@ -2,6 +2,13 @@
   <div class="toolbar">
     <input [(ngModel)]="channelId" (keyup.enter)="handleSearch()" placeholder="Search YouTube Channel ID">
     <button (click)="handleSearch()">Search</button>
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+  </div>
+
+  <div *ngIf="videos.length === 0" class="hint-message">
+    Please enter a channel ID and search for videos.
   </div>
 
   <div class="muuri-grid">
@@ -10,7 +17,7 @@
     </div>
   </div>
 
-  <button (click)="fetchVideos(channelId)">Load More</button>
+  <button (click)="handleLoadMore()">Load More</button>
 </main>
 
 <router-outlet></router-outlet>

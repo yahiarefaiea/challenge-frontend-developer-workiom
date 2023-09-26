@@ -69,17 +69,37 @@ export class AppComponent implements OnDestroy {
     });
   }
 
-  fetchVideos(channelId: string): void {
+  private fetchVideos(channelId: string): void {
+    this.error = null;
+
+    if (!channelId) {
+      this.error = 'Channel ID is required';
+      return;
+    }
+
     const nextPageToken = this.store.selectSnapshot(state => state.app.nextPageToken);
     this.store.dispatch(new FetchVideos(channelId, nextPageToken));
-    const currentChannel = this.store.selectSnapshot((state: { app: AppStateModel }) => state.app.channels)
-      .find(channel => channel.channelId === channelId);
-    this.videos = currentChannel ? currentChannel.videos : [];
   }
 
   handleSearch(): void {
+    const lastSearchedChannelId = this.store.selectSnapshot(state => state.app.lastSearchedChannelId);
+
+    if (this.channelId && this.channelId === lastSearchedChannelId) {
+      return;
+    }
+
     this.store.dispatch(new ResetPageToken());
     this.fetchVideos(this.channelId);
+  }
+
+  handleLoadMore(): void {
+    const lastSearchedChannelId = this.store.selectSnapshot(state => state.app.lastSearchedChannelId);
+
+    if (!lastSearchedChannelId) {
+      return;
+    }
+
+    this.fetchVideos(lastSearchedChannelId);
   }
 
   handleReorder(oldIndex: number, newIndex: number) {

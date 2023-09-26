@@ -35,7 +35,11 @@ export class AppState {
           ? currentState.channels.map(c => c.channelId === action.channelId ? {...c, videos} : c)
           : [...currentState.channels, { channelId: action.channelId, videos }];
 
-        ctx.patchState({ channels: updatedChannels, lastSearchedChannelId: action.channelId, nextPageToken: response.nextPageToken });
+        ctx.patchState({
+          channels: updatedChannels,
+          lastSearchedChannelId: action.channelId,
+          nextPageToken: response.nextPageToken
+        });
       }),
       catchError(err => {
         ctx.dispatch(new SetError(err.message));
