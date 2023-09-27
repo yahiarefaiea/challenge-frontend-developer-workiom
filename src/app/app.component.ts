@@ -73,12 +73,12 @@ export class AppComponent implements OnDestroy {
     return this.store.selectSnapshot(state => state.app.lastSearchedChannelId);
   }
 
-  get disableSearchButton(): boolean {
+  get disableSearch(): boolean {
     const lastSearchedChannelId = this.getLastSearchedChannelId();
     return !this.channelId || this.channelId === lastSearchedChannelId;
   }
 
-  get hideLoadMoreButton(): boolean {
+  get hideVideos(): boolean {
     const lastSearchedChannelId = this.getLastSearchedChannelId();
     return !lastSearchedChannelId || !this.videos.length;
   }
@@ -96,7 +96,7 @@ export class AppComponent implements OnDestroy {
   }
 
   handleSearch(): void {
-    if (this.disableSearchButton) {
+    if (this.disableSearch) {
       return;
     }
 
@@ -107,7 +107,7 @@ export class AppComponent implements OnDestroy {
   handleLoadMore(): void {
     const lastSearchedChannelId = this.getLastSearchedChannelId();
 
-    if (this.hideLoadMoreButton) {
+    if (this.hideVideos) {
       return;
     }
 
