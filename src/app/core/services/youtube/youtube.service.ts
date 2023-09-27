@@ -29,11 +29,11 @@ export class YouTubeService {
     return this.http.get<YouTubeResponse>(`${this.BASE_API_URL}${this.ENDPOINT_SEARCH}`, { params })
       .pipe(
         map(response => {
-          if (response.items.length === 0) {
+          if (response?.items.length === 0) {
             const errorResponse = new HttpErrorResponse({
               status: 404,
               statusText: 'No Content',
-              error: 'No videos found for this channel or channel does not exists.'
+              error: 'No videos were found for this channel or the channel does not exist..'
             });
             throw errorResponse;
           }

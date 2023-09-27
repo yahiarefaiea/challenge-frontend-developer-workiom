@@ -39,7 +39,7 @@ export class AppComponent implements OnDestroy {
     const error$ = this.store.select((state: { app: AppStateModel }) => state.app.errorMessage)
       .subscribe(errorMessage => {
         if (errorMessage) {
-          console.error('Error occurred:', errorMessage);
+          console.error('An error occurred:', errorMessage);
           this.error = errorMessage;
         }
       });
