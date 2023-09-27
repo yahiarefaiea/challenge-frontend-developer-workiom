@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { environment } from 'src/environments/environment';
 import { YouTubeResponse } from './youtube.service.types';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -27,16 +27,28 @@ export class YouTubeService {
     }
 
     return this.http.get<YouTubeResponse>(`${this.BASE_API_URL}${this.ENDPOINT_SEARCH}`, { params })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        map(response => {
+          if (response.items.length === 0) {
+            const errorResponse = new HttpErrorResponse({
+              status: 404,
+              statusText: 'No Content',
+              error: 'No videos found for this channel or channel does not exists.'
+            });
+            throw errorResponse;
+          }
+          return response;
+        }),
+        catchError(this.handleError)
+      );
   }
 
   private handleError(error: HttpErrorResponse) {
-    console.error('An error occurred:', error);
-
     if (error.status === 404) {
-      return throwError('Not found. Please check your channel ID.');
+      return throwError(error.error);
     }
 
+    console.error('An error occurred:', error);
     return throwError('Something bad happened; please try again later.');
   }
 }

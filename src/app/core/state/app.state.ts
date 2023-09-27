@@ -15,7 +15,8 @@ import { mapToVideos, findChannel } from './app.utils';
 @State<AppStateModel>({
   name: 'app',
   defaults: {
-    channels: []
+    channels: [],
+    errorMessage: null
   }
 })
 
@@ -42,7 +43,7 @@ export class AppState {
         });
       }),
       catchError(err => {
-        ctx.dispatch(new SetError(err.message));
+        ctx.dispatch(new SetError(err));
         return [];
       })
     );
@@ -83,5 +84,12 @@ export class AppState {
         ctx.patchState({ channels: currentChannels });
       }
     }
+  }
+
+  @Action(SetError)
+  setError(ctx: StateContext<AppStateModel>, action: SetError) {
+    ctx.patchState({
+      errorMessage: action.errorMessage
+    });
   }
 }

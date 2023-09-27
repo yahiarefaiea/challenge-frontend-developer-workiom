@@ -34,11 +34,18 @@ export class AppComponent implements OnDestroy {
         this.videos = videos;
         this.initializeMuuriGrid();
       }
-    }, err => {
-      this.error = 'Failed to fetch videos';
     });
 
+    const error$ = this.store.select((state: { app: AppStateModel }) => state.app.errorMessage)
+      .subscribe(errorMessage => {
+        if (errorMessage) {
+          console.error('Error occurred:', errorMessage);
+          this.error = errorMessage;
+        }
+      });
+
     this.subscription.add(videos$);
+    this.subscription.add(error$);
   }
 
   ngAfterViewInit() {

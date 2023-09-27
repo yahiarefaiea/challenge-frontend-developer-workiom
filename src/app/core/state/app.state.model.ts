@@ -13,5 +13,5 @@ export interface AppStateModel {
   channels: Channel[];
   lastSearchedChannelId?: string;
   nextPageToken?: string | null;
-  errorMessage?: string;
+  errorMessage: string | null;
 }
