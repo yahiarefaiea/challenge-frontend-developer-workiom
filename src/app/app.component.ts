@@ -7,6 +7,7 @@ import {
   ResetPageToken,
   UpdateVideoOrder
 } from './core/state/app.actions';
+import { findChannel } from './core/state/app.utils';
 import { Subscription } from 'rxjs';
 import { isEqual } from 'lodash';
 
@@ -26,7 +27,7 @@ export class AppComponent implements OnDestroy {
   constructor(private store: Store) {
     const videos$ = this.store.select((state: { app: AppStateModel }) => {
       const currentChannelId = state.app.lastSearchedChannelId;
-      const currentChannel = state.app.channels.find(channel => channel.channelId === currentChannelId);
+      const currentChannel = currentChannelId ? findChannel(state.app.channels, currentChannelId) : undefined;
       return currentChannel ? currentChannel.videos : [];
     }).subscribe(videos => {
       if (!isEqual(videos, this.videos)) {
