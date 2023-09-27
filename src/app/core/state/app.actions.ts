@@ -23,3 +23,7 @@ export class SetError {
   static readonly type = '[App] SetError';
   constructor(public errorMessage: string) {}
 }
+
+export class ClearError {
+  static readonly type = '[App] Clear Error';
+}

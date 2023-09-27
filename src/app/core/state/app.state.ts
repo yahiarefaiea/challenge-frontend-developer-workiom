@@ -7,7 +7,8 @@ import {
   ResetPageToken,
   UpdateVideoOrder,
   UpdateVideoNote,
-  SetError
+  SetError,
+  ClearError
 } from './app.actions';
 import { Video, AppStateModel } from './app.state.model';
 import { mapToVideos, findChannel } from './app.utils';
@@ -90,6 +91,13 @@ export class AppState {
   setError(ctx: StateContext<AppStateModel>, action: SetError) {
     ctx.patchState({
       errorMessage: action.errorMessage
+    });
+  }
+
+  @Action(ClearError)
+  clearError(ctx: StateContext<AppStateModel>) {
+    ctx.patchState({
+      errorMessage: null
     });
   }
 }

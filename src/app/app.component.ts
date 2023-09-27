@@ -1,11 +1,12 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import Muuri from 'muuri';
 import { Store } from '@ngxs/store';
 import { Video, AppStateModel } from './core/state/app.state.model';
 import {
   FetchVideos,
   ResetPageToken,
-  UpdateVideoOrder
+  UpdateVideoOrder,
+  ClearError
 } from './core/state/app.actions';
 import { findChannel } from './core/state/app.utils';
 import { Subscription } from 'rxjs';
@@ -16,7 +17,7 @@ import { isEqual } from 'lodash';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   channelId: string = '';
   videos: Video[] = [];
   muuriGrid: any;
@@ -46,6 +47,10 @@ export class AppComponent implements OnDestroy {
 
     this.subscription.add(videos$);
     this.subscription.add(error$);
+  }
+
+  ngOnInit() {
+    this.clearError();
   }
 
   ngAfterViewInit() {
@@ -128,8 +133,14 @@ export class AppComponent implements OnDestroy {
     this.store.dispatch(new UpdateVideoOrder(this.channelId, this.videos));
   }
 
+  private clearError(): void {
+    this.store.dispatch(new ClearError());
+    this.error = null;
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.clearError();
     if (this.muuriGrid) {
       this.muuriGrid.destroy();
     }
