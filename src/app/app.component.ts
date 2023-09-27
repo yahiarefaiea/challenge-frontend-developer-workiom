@@ -37,6 +37,15 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
+    const channelId$ = this.store.select((state: { app: AppStateModel }) => state.app.lastSearchedChannelId)
+      .subscribe(lastSearchedChannelId => {
+        if (lastSearchedChannelId) {
+          this.channelId = lastSearchedChannelId;
+        } else {
+          this.channelId = '';
+        }
+      });
+
     const error$ = this.store.select((state: { app: AppStateModel }) => state.app.errorMessage)
       .subscribe(errorMessage => {
         if (errorMessage) {
@@ -46,6 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
       });
 
     this.subscription.add(videos$);
+    this.subscription.add(channelId$);
     this.subscription.add(error$);
   }
 
