@@ -69,6 +69,20 @@ export class AppComponent implements OnDestroy {
     });
   }
 
+  private getLastSearchedChannelId(): string {
+    return this.store.selectSnapshot(state => state.app.lastSearchedChannelId);
+  }
+
+  get disableSearchButton(): boolean {
+    const lastSearchedChannelId = this.getLastSearchedChannelId();
+    return !this.channelId || this.channelId === lastSearchedChannelId;
+  }
+
+  get hideLoadMoreButton(): boolean {
+    const lastSearchedChannelId = this.getLastSearchedChannelId();
+    return !lastSearchedChannelId || !this.videos.length;
+  }
+
   private fetchVideos(channelId: string): void {
     this.error = null;
 
@@ -82,9 +96,7 @@ export class AppComponent implements OnDestroy {
   }
 
   handleSearch(): void {
-    const lastSearchedChannelId = this.store.selectSnapshot(state => state.app.lastSearchedChannelId);
-
-    if (this.channelId && this.channelId === lastSearchedChannelId) {
+    if (this.disableSearchButton) {
       return;
     }
 
@@ -93,9 +105,9 @@ export class AppComponent implements OnDestroy {
   }
 
   handleLoadMore(): void {
-    const lastSearchedChannelId = this.store.selectSnapshot(state => state.app.lastSearchedChannelId);
+    const lastSearchedChannelId = this.getLastSearchedChannelId();
 
-    if (!lastSearchedChannelId) {
+    if (this.hideLoadMoreButton) {
       return;
     }
 
