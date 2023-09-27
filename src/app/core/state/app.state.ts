@@ -43,7 +43,7 @@ export class AppState {
         });
       }),
       catchError(err => {
-        ctx.dispatch(new SetError(err));
+        ctx.dispatch(new SetError(err.error));
         return [];
       })
     );

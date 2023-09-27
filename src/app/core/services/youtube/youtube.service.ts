@@ -33,7 +33,7 @@ export class YouTubeService {
             const errorResponse = new HttpErrorResponse({
               status: 404,
               statusText: 'No Content',
-              error: 'No videos were found for this channel or the channel does not exist..'
+              error: 'No videos were found for this channel or the channel does not exist.'
             });
             throw errorResponse;
           }
@@ -45,10 +45,16 @@ export class YouTubeService {
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 404) {
-      return throwError(error.error);
+      return throwError(error);
     }
 
+    const errorResponse = new HttpErrorResponse({
+      status: error.status,
+      statusText: error.statusText,
+      error: 'Something went wrong; please try again later.'
+    });
+
     console.error('An error occurred:', error);
-    return throwError('Something bad happened; please try again later.');
+    return throwError(errorResponse);
   }
 }
