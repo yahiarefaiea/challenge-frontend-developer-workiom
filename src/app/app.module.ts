@@ -10,14 +10,12 @@ import { AppState } from './core/state/app.state';
 import { VideoCardComponent } from './shared/components/video-card/video-card.component';
 import { SafeVideoUrlPipe } from './shared/components/video-card/video-url.pipe';
 import { HttpClientModule } from '@angular/common/http';
-import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VideoCardComponent,
-    SafeVideoUrlPipe,
-    PageNotFoundComponent
+    SafeVideoUrlPipe
   ],
   imports: [
     BrowserModule,
