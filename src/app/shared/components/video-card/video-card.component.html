@@ -1,19 +1,30 @@
-<div class="video-card">
-  <div class="thumbnail-container" *ngIf="!showVideo" (click)="toggleVideo()">
-    <img [src]="thumbnailUrl" alt="{{ video.title }} Thumbnail">
+<div class="video-card" (mouseenter)="showOverlay()" (mouseleave)="hideOverlay()">
+  <div class="overlay"></div>
+  <div class="video-container">
+    <div class="thumbnail-container" *ngIf="!showVideo" (click)="toggleVideo()">
+      <img [src]="thumbnailUrl" alt="{{ video.title }} Thumbnail">
+    </div>
+    <div class="iframe-container" *ngIf="showVideo">
+      <iframe
+        [src]="videoUrl | safeVideoUrl"
+        frameborder="0"
+        title="YouTube Video - {{ video.title }}"
+        allowfullscreen
+      ></iframe>
+    </div>
   </div>
-  <div class="iframe-container" *ngIf="showVideo">
-    <iframe
-      [src]="videoUrl | safeVideoUrl"
-      frameborder="0"
-      title="YouTube Video - {{ video.title }}"
-      allowfullscreen
-    ></iframe>
+
+  <div class="meta-data">
+    <h2 [innerHTML]="video.title"></h2>
+    <span>Channel Name</span>
   </div>
-  <h2>{{ video.title }}</h2>
-  <textarea
-    [(ngModel)]="video.note"
-    (change)="onNoteChange(video.id, video.note)"
-    placeholder="Write a note..."
-  ></textarea>
+
+  <div class="note-control">
+    <button>Write a note</button>
+    <textarea
+      [(ngModel)]="video.note"
+      (change)="onNoteChange(video.id, video.note)"
+      placeholder="Write a note..."
+    ></textarea>
+  </div>
 </div>
