@@ -7,11 +7,11 @@ export interface Video {
 export interface Channel {
   channelId: string;
   videos: Video[];
+  nextPageToken?: string | null;
 }
 
 export interface AppStateModel {
   channels: Channel[];
   lastSearchedChannelId?: string;
-  nextPageToken?: string | null;
   errorMessage: string | null;
 }

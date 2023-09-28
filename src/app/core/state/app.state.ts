@@ -28,7 +28,7 @@ export class AppState {
 
   @Action(FetchVideos)
   fetchVideos(ctx: StateContext<AppStateModel>, action: FetchVideos) {
-    return this.youtubeService.getVideosByChannelId(action.channelId, action.nextPageToken).pipe(
+    return this.youtubeService.getVideosByChannelId(action.channelId, action.nextPageToken ?? undefined).pipe(
       tap(response => {
         const currentState = ctx.getState();
         const channel = findChannel(currentState.channels, action.channelId);
@@ -38,13 +38,15 @@ export class AppState {
         const uniqueVideos = _.uniqBy(allVideos, 'id');
 
         const updatedChannels = channel
-          ? currentState.channels.map(c => c.channelId === action.channelId ? {...c, videos: uniqueVideos} : c)
-          : [...currentState.channels, { channelId: action.channelId, videos: uniqueVideos }];
+          ? currentState.channels.map(c =>
+              c.channelId === action.channelId
+                ? {...c, videos: uniqueVideos, nextPageToken: response.nextPageToken}
+                : c)
+          : [...currentState.channels, { channelId: action.channelId, videos: uniqueVideos, nextPageToken: response.nextPageToken }];
 
         ctx.patchState({
           channels: updatedChannels,
-          lastSearchedChannelId: action.channelId,
-          nextPageToken: response.nextPageToken
+          lastSearchedChannelId: action.channelId
         });
       }),
       catchError(err => {

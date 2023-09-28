@@ -110,7 +110,10 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const nextPageToken = this.store.selectSnapshot(state => state.app.nextPageToken);
+    const channels = this.store.selectSnapshot(state => state.app.channels);
+    const channel = findChannel(channels, channelId);
+    const nextPageToken = channel ? channel.nextPageToken : null;
+
     this.store.dispatch(new FetchVideos(channelId, nextPageToken));
   }
 
