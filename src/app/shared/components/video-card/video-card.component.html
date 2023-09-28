@@ -1,7 +1,16 @@
-<div class="video-card" (mouseenter)="showOverlay()" (mouseleave)="hideOverlay()">
+<div
+  class="video-card"
+  (mouseenter)="showOverlay()"
+  (mouseleave)="hideOverlay()"
+>
   <div class="overlay"></div>
+
   <div class="video-container">
-    <div class="thumbnail-container" *ngIf="!showVideo" (click)="toggleVideo()">
+    <div
+      class="thumbnail-container"
+      *ngIf="!showVideo"
+      (click)="toggleVideo()"
+    >
       <img [src]="thumbnailUrl" alt="{{ video.title }} Thumbnail">
     </div>
     <div class="iframe-container" *ngIf="showVideo">
@@ -15,7 +24,7 @@
   </div>
 
   <div class="meta-data">
-    <h2 [innerHTML]="video.title"></h2>
+    <h3 [innerHTML]="video.title"></h3>
     <span>Channel Name</span>
   </div>
 
