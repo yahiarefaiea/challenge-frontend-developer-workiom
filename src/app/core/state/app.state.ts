@@ -1,6 +1,7 @@
 import { State, Action, StateContext } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { tap, catchError } from 'rxjs/operators';
+import * as _ from 'lodash';
 import { YouTubeService } from 'src/app/core/services/youtube/youtube.service';
 import {
   FetchVideos,
@@ -32,10 +33,14 @@ export class AppState {
       tap(response => {
         const currentState = ctx.getState();
         const channel = findChannel(currentState.channels, action.channelId);
-        const videos = channel ? [...channel.videos, ...mapToVideos(response.items)] : mapToVideos(response.items);
+
+        const newVideos = mapToVideos(response.items);
+        const allVideos = channel ? [...channel.videos, ...newVideos] : newVideos;
+        const uniqueVideos = _.uniqBy(allVideos, 'id');
+
         const updatedChannels = channel
-          ? currentState.channels.map(c => c.channelId === action.channelId ? {...c, videos} : c)
-          : [...currentState.channels, { channelId: action.channelId, videos }];
+          ? currentState.channels.map(c => c.channelId === action.channelId ? {...c, videos: uniqueVideos} : c)
+          : [...currentState.channels, { channelId: action.channelId, videos: uniqueVideos }];
 
         ctx.patchState({
           channels: updatedChannels,
