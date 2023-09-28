@@ -7,6 +7,7 @@ import {
   FetchVideos,
   UpdateVideoOrder,
   UpdateVideoNote,
+  ResetLastSearchedChannelId,
   SetError,
   ClearError
 } from './app.actions';
@@ -86,6 +87,11 @@ export class AppState {
         ctx.patchState({ channels: currentChannels });
       }
     }
+  }
+
+  @Action(ResetLastSearchedChannelId)
+  resetLastSearchedChannelId(ctx: StateContext<AppStateModel>) {
+    ctx.patchState({ lastSearchedChannelId: '' });
   }
 
   @Action(SetError)

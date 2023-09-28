@@ -15,6 +15,10 @@ export class UpdateVideoNote {
   constructor(public videoId: string, public note: string) {}
 }
 
+export class ResetLastSearchedChannelId {
+  static readonly type = '[App] ResetLastSearchedChannelId';
+}
+
 export class SetError {
   static readonly type = '[App] SetError';
   constructor(public errorMessage: string) {}

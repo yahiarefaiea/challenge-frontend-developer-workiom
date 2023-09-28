@@ -5,6 +5,7 @@ import { Video, AppStateModel } from './core/state/app.state.model';
 import {
   FetchVideos,
   UpdateVideoOrder,
+  ResetLastSearchedChannelId,
   ClearError
 } from './core/state/app.actions';
 import { findChannel } from './core/state/app.utils';
@@ -60,6 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.clearError();
+    this.store.dispatch(new ResetLastSearchedChannelId());
   }
 
   ngAfterViewInit() {
@@ -149,6 +151,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.store.dispatch(new ResetLastSearchedChannelId());
     this.clearError();
     if (this.muuriGrid) {
       this.muuriGrid.destroy();
