@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ElementRef } from '@angular/core';
-import { gsap } from 'gsap';
 import { Store } from '@ngxs/store';
+import { gsap } from 'gsap';
 import { UpdateVideoNote } from 'src/app/core/state/app.actions';
 import { Video } from 'src/app/core/state/app.state.model';
 
