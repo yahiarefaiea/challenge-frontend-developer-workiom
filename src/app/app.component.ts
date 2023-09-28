@@ -106,10 +106,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private fetchVideos(channelId: string): void {
-    this.error = null;
-
     if (!channelId) {
-      this.error = 'Channel ID is required';
       return;
     }
 
@@ -122,6 +119,7 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.clearError();
     this.fetchVideos(this.channelId);
   }
 
