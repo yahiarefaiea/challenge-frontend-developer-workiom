@@ -5,7 +5,6 @@ import * as _ from 'lodash';
 import { YouTubeService } from 'src/app/core/services/youtube/youtube.service';
 import {
   FetchVideos,
-  ResetPageToken,
   UpdateVideoOrder,
   UpdateVideoNote,
   SetError,
@@ -53,11 +52,6 @@ export class AppState {
         return [];
       })
     );
-  }
-
-  @Action(ResetPageToken)
-  resetPageToken(ctx: StateContext<AppStateModel>) {
-    ctx.patchState({ nextPageToken: null });
   }
 
   @Action(UpdateVideoOrder)

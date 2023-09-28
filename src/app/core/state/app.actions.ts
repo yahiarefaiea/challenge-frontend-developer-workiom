@@ -5,10 +5,6 @@ export class FetchVideos {
   constructor(public channelId: string, public nextPageToken?: string) {}
 }
 
-export class ResetPageToken {
-  static readonly type = '[App] ResetPageToken';
-}
-
 export class UpdateVideoOrder {
   static readonly type = '[App] UpdateVideoOrder';
   constructor(public channelId: string, public videos: Video[]) {}

@@ -4,7 +4,6 @@ import { Store } from '@ngxs/store';
 import { Video, AppStateModel } from './core/state/app.state.model';
 import {
   FetchVideos,
-  ResetPageToken,
   UpdateVideoOrder,
   ClearError
 } from './core/state/app.actions';
@@ -123,7 +122,6 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.store.dispatch(new ResetPageToken());
     this.fetchVideos(this.channelId);
   }
 
