@@ -56,8 +56,7 @@ a.link
   -webkit-text-fill-color: transparent
   background-image: $link-gradient
   background-clip: text
-  &.has-arrow-icon:after
-    content: ''
+  .arrow-icon
     display: inline-block
     width: $arrow-icon-w
     height: $arrow-icon-h
@@ -67,3 +66,8 @@ a.link
     background-image: url($arrow-icon-image-url)
     background-repeat: no-repeat
     background-size: auto
+    transition: all .3s ease
+  &:hover,
+  &:focus
+    .arrow-icon
+      margin-left: $arrow-icon-margin*2.5

@@ -29,7 +29,14 @@
   </div>
 
   <div class="note-control">
-    <button>Write a note</button>
+    <a
+      href="javascript:void(0)"
+      class="link"
+      (click)="showNote()"
+    >
+      {{ !video.note ? 'Write a note' : 'You have 1 hidden note' }}
+      <span class="arrow-icon"></span>
+    </a>
     <textarea
       [(ngModel)]="video.note"
       (change)="onNoteChange(video.id, video.note)"
