@@ -1,17 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap')
 @import variables
 
+// defaults
 *, *:before, *:after
   box-sizing: border-box
 
 html, body
   height: 100%
+
+html, body, header, main, h1, h2, h3, p,
+button, a, input, textarea, img, iframe
   margin: 0
   padding: 0
+  border: none
 
+// body
 body
-  background-color: $color-skyblue
-  font-family: 'Arial', sans-serif
+  font-family: $default-font-family
+  font-size: $default-font-size
+  font-weight: $default-font-weight
+  line-height: $baseline
+  background-color: $body-bg-color
+  background-image: url($body-bg-gradient-url)
+  background-position: 50%
+  background-repeat: no-repeat
+  background-size: cover
+  background-attachment: scroll
 
-header, main, section
-  margin: 0
-  padding: 0
+// headings
+h1, h2, h3
+  font-weight: $heading-font-weight
+
+// button, a, input, textarea
+button, a, input, textarea
+  display: block
+  font-family: inherit
+
+button, a
+  font-weight: $cta-font-weight
+  text-decoration: none
+  vertical-align: middle
+  cursor: pointer
+
+input
+  vertical-align: middle
+
+// button
+button
+  padding: $button-padding-y $button-padding-x
+  border-radius: $button-border-radius
+
+// link
+a.link
+  display: inline-block
+  -webkit-text-fill-color: transparent
+  background-image: $link-gradient
+  background-clip: text
+  &.has-arrow-icon:after
+    content: ''
+    display: inline-block
+    width: $arrow-icon-w
+    height: $arrow-icon-h
+    margin-top: $arrow-icon-top-fix
+    margin-left: $arrow-icon-margin
+    vertical-align: middle
+    background-image: url($arrow-icon-image-url)
+    background-repeat: no-repeat
+    background-size: auto
