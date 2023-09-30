@@ -3,11 +3,7 @@
 $video-aspect-ratio: (9 / 16) * 100% // for 16:9 aspect ratio
 $video-border-radius: $baseline*.5
 $meta-data-padding: $baseline*.5
-
 $title-margin: $baseline*.25
-$title-font-size: 16px
-$title-line-height: $baseline*.75
-$title-color: $color-black
 
 $channel-font-size: 14px
 $channel-line-height: $baseline*.5
@@ -45,10 +41,8 @@ $overlay-box-shadow: 0 0 7px 0 rgba($color-black, .14)
   .meta-data
     padding: $meta-data-padding
     > h3
+      overflow: hidden
       margin-bottom: $title-margin
-      font-size: $title-font-size
-      line-height: $title-line-height
-      color: $title-color
     > span
       display: block
       font-size: $channel-font-size
