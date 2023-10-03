@@ -111,7 +111,7 @@ export class VideoCardComponent implements OnInit {
       lineHeight: '28px',
       height: 28,
       marginBottom: 0,
-      fontSize: '13px',
+      fontSize: '12.5px',
       autoRound: false
     }, delay);
     tl.to(channelElement, {
