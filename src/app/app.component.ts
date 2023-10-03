@@ -147,7 +147,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.store.dispatch(new UpdateVideoOrder(this.channelId, this.videos));
   }
 
-  private clearError(): void {
+  clearError(): void {
     this.store.dispatch(new ClearError());
     this.error = null;
   }
