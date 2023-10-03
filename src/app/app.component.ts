@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import Muuri from 'muuri';
 import { Store } from '@ngxs/store';
 import { Video, AppStateModel } from './core/state/app.state.model';
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   error: string | null = null;
   private subscription: Subscription = new Subscription();
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private el: ElementRef) {
     const videos$ = this.store.select((state: { app: AppStateModel }) => {
       const currentChannelId = state.app.lastSearchedChannelId;
       const currentChannel = currentChannelId ? findChannel(state.app.channels, currentChannelId) : undefined;
@@ -69,11 +69,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private initializeMuuriGrid(): void {
+    const element = this.el.nativeElement;
+    const muuriGridElement = element.querySelector('.muuri-grid')
+
     if (this.muuriGrid) {
       this.muuriGrid.destroy();
     }
 
-    this.muuriGrid = new Muuri('.muuri-grid', {
+    this.muuriGrid = new Muuri(muuriGridElement, {
       items: '.muuri-item',
       dragEnabled: true,
       dragSort: () => {
