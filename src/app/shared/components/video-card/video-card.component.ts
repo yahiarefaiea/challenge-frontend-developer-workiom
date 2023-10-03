@@ -36,13 +36,13 @@ export class VideoCardComponent implements OnInit {
   }
 
   showOverlay(): void {
-    const element = this.el.nativeElement;
+    const element = this.el.nativeElement.querySelector('.video-card');
     const overlayElement = element.querySelector('.overlay');
     gsap.to(overlayElement, { ease, duration, top: -14, right: -14, bottom: -14, left: -14, opacity: 1 });
   }
 
   hideOverlay(): void {
-    const element = this.el.nativeElement;
+    const element = this.el.nativeElement.querySelector('.video-card');
     const overlayElement = element.querySelector('.overlay');
     gsap.to(overlayElement, { ease, duration, top: 14, right: 14, bottom: 14, left: 14, opacity: 0 });
   }
