@@ -72,6 +72,8 @@ export class VideoCardComponent implements OnInit {
     const arrowIconElement = writeNoteLinkElement.querySelector('.arrow-icon');
     const writeNoteTextareaElement = noteControlElement.querySelector('textarea');
 
+    const overlayElement = element.querySelector('.overlay');
+
     // timeline
     const tl: gsap.core.Timeline = gsap.timeline({
       defaults: { ease, duration }
@@ -91,6 +93,17 @@ export class VideoCardComponent implements OnInit {
     });
 
     const delay = duration/8 + duration/8*7 + duration/4;
+
+    // overlay
+    tl.to(overlayElement, {
+      top: 0,
+      right: 'auto',
+      bottom: 'auto',
+      left: 0,
+      width: thumbnailNewSize,
+      height: thumbnailNewSize,
+      borderRadius: 14
+    }, delay);
 
     // note-control
     tl.to(writeNoteLinkElement, {
