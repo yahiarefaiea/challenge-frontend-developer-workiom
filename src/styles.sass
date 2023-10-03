@@ -59,8 +59,25 @@ button, a
 
 // button
 button
-  padding: $button-padding-y $button-padding-x
-  border-radius: $button-border-radius
+  overflow: hidden
+  position: relative
+  background-color: transparent
+  color: $button-color
+  &:before
+    content: ''
+    z-index: -1
+    position: absolute
+    bottom: 0
+    left: 0
+    width: 200%
+    height: 200%
+    background-image: $button-gradient
+    transition: all .3s ease
+  &:hover,
+  &:focus
+    &:before
+      bottom: -100%
+      left: -100%
 
 // link
 a.link
