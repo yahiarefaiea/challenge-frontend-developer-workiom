@@ -1,45 +1,90 @@
 @import ../variables
 
-.main-area
+.container
+  display: flex
+  flex-direction: column
+  gap: $grid-gap*.5
   width: 100%
-  max-width: $container-width + $baseline*2 + $baseline
+  max-width: $container-width + $container-padding-x*2 + $grid-gap
+  min-height: 100%
   margin: 0 auto
-  margin-top: $baseline*2
-  padding: 0 $baseline
+  padding: $container-padding-y $container-padding-x
 
-// toolbar
-.toolbar
-  margin-bottom: $baseline/2
-  input, button
-    height: $baseline*2
-    padding: 0 $baseline
-    border-radius: $baseline
-    border: 0
-    font-family: inherit
-  input
-    display: block
-    width: 100%
-    color: $color-darkblue
-    background-color: $color-sugarcane
-    margin-bottom: $baseline/2
-    &:focus
-      outline: 2px solid $color-darkblue
-  button
-    background-color: $color-darkblue
-    color: $color-sugarcane
-    font-weight: 600
-    &:last-child
-      margin-left: $baseline/2
-    &:hover
-      cursor: pointer
+// main-area
+.main-area
+  flex-grow: 1
+  display: flex
+  flex-direction: column
+
+// error-container
+.error-container
+  flex-grow: 1
+  padding: $baseline*3 0
 
 // grid
 .muuri-grid
   position: relative
-.muuri-item
-  z-index: 1
-  display: block
-  position: absolute
-  width: calc(25% - 28px)
-  margin: $baseline/2
-  cursor: move
+  .muuri-item
+    z-index: 1
+    display: block
+    position: absolute
+    // float: left
+    width: calc(100%/4 - #{$grid-gap})
+    margin: $grid-gap*.5
+    cursor: move
+    @media screen and (max-width: 960px)
+      width: calc(100%/3 - #{$grid-gap})
+    @media screen and (max-width: 700px)
+      width: calc(100%/2 - #{$grid-gap})
+    @media screen and (max-width: 500px)
+      width: calc(100% - #{$grid-gap})
+.muuri-item-dragging
+  z-index: 10 !important
+
+// toolbar
+.toolbar
+  input
+    max-width: 380px
+    border-radius: 14px
+  button
+    transition: all .3s ease
+  button[disabled]
+    // opacity: .35 !important
+    color: #8b8b8b
+    background-color: $color-grey-400
+    cursor: default
+    &:before
+      opacity: 0
+  // button
+  //   padding: 3px 14px
+  //   // margin-left: -88px
+  //   background-color: white
+  //   color: $color-blue
+  //   letter-spacing: 0
+  //   border-radius: 10px
+  //   transition: all .3s ease
+  //   &:before
+  //     opacity: 0
+  //   &:not([disabled])
+  //     &:hover,
+  //     &:focus
+  //       // margin-left: -106px
+  //       letter-spacing: 3px
+  //       background-color: transparent
+  //       color: white
+  //       &:before
+  //         opacity: 1
+  //   &[disabled]
+  //     color: #8b8b8b
+  //     background-color: $color-grey-400
+
+
+
+
+
+
+
+
+
+
+

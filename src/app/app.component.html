@@ -1,23 +1,30 @@
-<main class="main-area">
-  <div class="toolbar">
-    <input [(ngModel)]="channelId" (keyup.enter)="handleSearch()" placeholder="Search YouTube Channel ID">
+<div class="container">
+  <header class="toolbar centered-content">
+    <input
+      [(ngModel)]="channelId"
+      (keyup.enter)="handleSearch()"
+      (ngModelChange)="clearError()"
+      placeholder="Search YouTube Channel ID"
+    >
     <button (click)="handleSearch()" [disabled]="disableSearch">Search</button>
-    <div *ngIf="error" class="error-message">
-      {{ error }}
+  </header>
+
+  <main class="main-area">
+    <div class="error-container centered-content" *ngIf="error || videos.length === 0">
+      <h2>{{ !!error ? error : 'Please enter a channel ID and search for videos.' }}</h2>
     </div>
-  </div>
 
-  <div *ngIf="videos.length === 0" class="hint-message">
-    Please enter a channel ID and search for videos.
-  </div>
-
-  <div class="muuri-grid">
-    <div class="muuri-item" *ngFor="let video of videos; let index = index">
-      <app-video-card class="video-card-container" [video]="video" [index]="index"></app-video-card>
+    <!-- <div *ngIf="!hideVideos" class="muuri-grid"> -->
+    <div class="muuri-grid">
+      <div class="muuri-item" *ngFor="let video of videos; let index = index" [attr.data-id]="video.id">
+        <app-video-card class="video-card-container" [video]="video" [index]="index"></app-video-card>
+      </div>
     </div>
-  </div>
+  </main>
 
-  <button *ngIf="!hideVideos" (click)="handleLoadMore()">Load More</button>
-</main>
+  <div class="centered-content">
+    <button *ngIf="!hideVideos" (click)="handleLoadMore()">Load More</button>
+  </div>
+</div>
 
 <router-outlet></router-outlet>
