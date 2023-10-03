@@ -49,6 +49,12 @@ export class VideoCardComponent implements OnInit {
 
   showNote(): void {
     const element = this.el.nativeElement.querySelector('.video-card');
+    const aspectRatio = 16 / 9;
+    const thumbnailNewSize = 56;
+
+    const videoContainerElement = element.querySelector('.video-container');
+    const thumbnailContainerElement = videoContainerElement.querySelector('.thumbnail-container');
+    const thumbnailElement = thumbnailContainerElement.querySelector('img');
 
     const noteControlElement = element.querySelector('.note-control');
     const writeNoteLinkElement = noteControlElement.querySelector('.link');
@@ -71,6 +77,24 @@ export class VideoCardComponent implements OnInit {
       delay: duration/8*7,
       x: 1200/4
     });
+
+    const delay = duration/8 + duration/8*7 + duration/4;
+
+    // video-container
+    tl.to(videoContainerElement, {
+      width: thumbnailNewSize,
+      height: thumbnailNewSize
+    }, delay);
+    tl.to(thumbnailContainerElement, {
+      height: '100%',
+      paddingBottom: 0
+    }, delay);
+    tl.to(thumbnailElement, {
+      height: '100%',
+      width: `${aspectRatio * 100}%`,
+      left: '50%',
+      x: '-50%'
+    }, delay);
   }
 
   onNoteChange(videoId: string, newNote: string): void {
