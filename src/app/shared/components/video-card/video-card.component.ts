@@ -33,7 +33,6 @@ export class VideoCardComponent implements OnInit {
   }
 
   toggleVideo(): void {
-    console.log(!this.noteIsVisible)
     if(!this.noteIsVisible) {
       this.showVideo = !this.showVideo;
     }
