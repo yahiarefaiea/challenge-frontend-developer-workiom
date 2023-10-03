@@ -21,6 +21,7 @@ export class VideoCardComponent implements OnInit {
   };
 
   showVideo: boolean = false;
+  noteIsVisible: boolean = false;
   videoUrl: string = '';
   thumbnailUrl: string = '';
 
@@ -32,7 +33,10 @@ export class VideoCardComponent implements OnInit {
   }
 
   toggleVideo(): void {
-    this.showVideo = !this.showVideo;
+    console.log(!this.noteIsVisible)
+    if(!this.noteIsVisible) {
+      this.showVideo = !this.showVideo;
+    }
   }
 
   showOverlay(): void {
@@ -48,6 +52,9 @@ export class VideoCardComponent implements OnInit {
   }
 
   showNote(): void {
+    this.noteIsVisible = true;
+    this.showVideo = false;
+
     const element = this.el.nativeElement.querySelector('.video-card');
     const aspectRatio = 16 / 9;
     const thumbnailNewSize = 56;
