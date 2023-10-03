@@ -33,21 +33,19 @@ export class VideoCardComponent implements OnInit {
   }
 
   toggleVideo(): void {
-    if(!this.noteIsVisible) {
-      this.showVideo = !this.showVideo;
-    }
+    this.showVideo = !this.showVideo;
   }
 
   showOverlay(): void {
     const element = this.el.nativeElement.querySelector('.video-card');
     const overlayElement = element.querySelector('.overlay');
-    gsap.to(overlayElement, { ease, duration, top: -14, right: -14, bottom: -14, left: -14, opacity: 1 });
+    gsap.to(overlayElement, { ease, duration: 0.3, top: -14, right: -14, bottom: -14, left: -14, opacity: 1 });
   }
 
   hideOverlay(): void {
     const element = this.el.nativeElement.querySelector('.video-card');
     const overlayElement = element.querySelector('.overlay');
-    gsap.to(overlayElement, { ease, duration, top: 14, right: 14, bottom: 14, left: 14, opacity: 0 });
+    gsap.to(overlayElement, { ease, duration: 0.3, top: 14, right: 14, bottom: 14, left: 14, opacity: 0 });
   }
 
   showNote(): void {

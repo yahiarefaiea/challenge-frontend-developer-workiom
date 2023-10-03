@@ -1,7 +1,7 @@
 <div
   class="video-card"
-  (mouseenter)="showOverlay()"
-  (mouseleave)="hideOverlay()"
+  (mouseenter)="!noteIsVisible && showOverlay()"
+  (mouseleave)="!noteIsVisible && hideOverlay()"
 >
   <div class="overlay"></div>
 
@@ -10,7 +10,7 @@
     <div
       class="thumbnail-container"
       *ngIf="!showVideo"
-      (click)="toggleVideo()"
+      (click)="!noteIsVisible && toggleVideo()"
     >
       <img [src]="thumbnailUrl" alt="{{ video.title }} Thumbnail">
     </div>
@@ -35,7 +35,7 @@
     <a
       href="javascript:void(0)"
       class="link"
-      (click)="showNote()"
+      (click)="!noteIsVisible && showNote()"
     >
       {{ !video.note ? 'Write a note' : 'You have 1 hidden note' }}
       <span class="arrow-icon"></span>
