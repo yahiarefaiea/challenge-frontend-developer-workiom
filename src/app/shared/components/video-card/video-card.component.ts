@@ -56,6 +56,10 @@ export class VideoCardComponent implements OnInit {
     const thumbnailContainerElement = videoContainerElement.querySelector('.thumbnail-container');
     const thumbnailElement = thumbnailContainerElement.querySelector('img');
 
+    const metaDataElement = element.querySelector('.meta-data');
+    const titleElement = metaDataElement.querySelector('h3');
+    const channelElement = metaDataElement.querySelector('span');
+
     const noteControlElement = element.querySelector('.note-control');
     const writeNoteLinkElement = noteControlElement.querySelector('.link');
     const arrowIconElement = writeNoteLinkElement.querySelector('.arrow-icon');
@@ -94,6 +98,25 @@ export class VideoCardComponent implements OnInit {
       width: `${aspectRatio * 100}%`,
       left: '50%',
       x: '-50%'
+    }, delay);
+
+    // meta-data
+    tl.to(metaDataElement, {
+      marginTop: -thumbnailNewSize,
+      paddingTop: 7,
+      paddingBottom: 7 + 14,
+      paddingLeft: thumbnailNewSize + 14
+    }, delay);
+    tl.to(titleElement, {
+      lineHeight: '28px',
+      height: 28,
+      marginBottom: 0,
+      fontSize: '13px',
+      autoRound: false
+    }, delay);
+    tl.to(channelElement, {
+      fontSize: '11px',
+      autoRound: false
     }, delay);
   }
 
