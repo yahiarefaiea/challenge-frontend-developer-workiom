@@ -102,6 +102,21 @@ a.link
     .arrow-icon
       margin-left: $arrow-icon-margin*2.5
 
+// input, textarea
+input, textarea
+  width: 100%
+  background-color: $field-bg-color
+  color: $field-color
+  &::placeholder
+    color: $field-placeholder-color
+    opacity: 1
+  &:focus
+    outline: none
+
+// textarea
+textarea
+  resize: none
+
 // centered-content
 .centered-content
   display: flex
