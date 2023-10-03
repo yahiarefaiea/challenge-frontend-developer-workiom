@@ -72,9 +72,18 @@ export class VideoCardComponent implements OnInit {
 
     const overlayElement = element.querySelector('.overlay');
 
+    // defaults
+    gsap.set(writeNoteTextareaElement, { visibility: 'visible' });
+    const onComplete = () => {
+      gsap.set(writeNoteLinkElement, { visibility: 'hidden' });
+      gsap.set(titleElement, { whiteSpace: 'nowrap', textOverflow: 'ellipsis' });
+      writeNoteTextareaElement.focus()
+    }
+
     // timeline
     const tl: gsap.core.Timeline = gsap.timeline({
-      defaults: { ease, duration }
+      defaults: { ease, duration },
+      onComplete
     });
 
     // arrow-icon
