@@ -55,6 +55,7 @@ export class VideoCardComponent implements OnInit {
     this.showVideo = false;
 
     const element = this.el.nativeElement.querySelector('.video-card');
+    const cardHeight = element.clientHeight;
     const aspectRatio = 16 / 9;
     const thumbnailNewSize = 56;
 
@@ -69,6 +70,7 @@ export class VideoCardComponent implements OnInit {
     const noteControlElement = element.querySelector('.note-control');
     const writeNoteLinkElement = noteControlElement.querySelector('.link');
     const arrowIconElement = writeNoteLinkElement.querySelector('.arrow-icon');
+    const writeNoteTextareaElement = noteControlElement.querySelector('textarea');
 
     // timeline
     const tl: gsap.core.Timeline = gsap.timeline({
@@ -89,6 +91,31 @@ export class VideoCardComponent implements OnInit {
     });
 
     const delay = duration/8 + duration/8*7 + duration/4;
+
+    // note-control
+    tl.to(writeNoteLinkElement, {
+      x: 14,
+      y: 7 - 1,
+      opacity: 0
+    }, delay);
+    tl.to(writeNoteTextareaElement, {
+      x: 0,
+      paddingTop: 21,
+      paddingBottom: 21,
+      paddingLeft: 28,
+      paddingRight: 28,
+      opacity: 1
+    }, delay);
+    tl.to(noteControlElement, {
+      height: cardHeight - thumbnailNewSize - 14,
+      padding: 14,
+      boxShadow: '0 0 7px 0 rgba(51, 51, 51, 0.14)'
+    }, delay);
+    tl.fromTo(noteControlElement, {
+      backgroundColor: 'transparent'
+    }, {
+      backgroundColor: '#fff'
+    }, delay);
 
     // video-container
     tl.to(videoContainerElement, {
