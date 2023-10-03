@@ -47,6 +47,32 @@ export class VideoCardComponent implements OnInit {
     gsap.to(overlayElement, { ease, duration, top: 14, right: 14, bottom: 14, left: 14, opacity: 0 });
   }
 
+  showNote(): void {
+    const element = this.el.nativeElement.querySelector('.video-card');
+
+    const noteControlElement = element.querySelector('.note-control');
+    const writeNoteLinkElement = noteControlElement.querySelector('.link');
+    const arrowIconElement = writeNoteLinkElement.querySelector('.arrow-icon');
+
+    // timeline
+    const tl: gsap.core.Timeline = gsap.timeline({
+      defaults: { ease, duration }
+    });
+
+    // arrow-icon
+    tl.to(arrowIconElement, {
+      ease: 'power4.in',
+      duration: duration/8,
+      marginLeft: 0
+    });
+    tl.to(arrowIconElement, {
+      ease: 'power4.in',
+      duration: duration/2,
+      delay: duration/8*7,
+      x: 1200/4
+    });
+  }
+
   onNoteChange(videoId: string, newNote: string): void {
     this.store.dispatch(new UpdateVideoNote(videoId, newNote));
   }
