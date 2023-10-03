@@ -9,6 +9,9 @@ $channel-font-size: 14px
 $channel-line-height: $baseline*.5
 $channel-color: $color-black
 
+$note-control-padding: 0 $meta-data-padding
+$note-control-border-radius: $video-border-radius
+
 $overlay-padding: $grid-gap*.5
 $overlay-border-radius: $video-border-radius + $overlay-padding
 $overlay-bg-color: $color-white
@@ -48,6 +51,28 @@ $overlay-box-shadow: 0 0 7px 0 rgba($color-black, .14)
       font-size: $channel-font-size
       line-height: $channel-line-height
       color: $channel-color
+
+  // note-control
+  .note-control
+    overflow: hidden
+    position: relative
+    padding: $note-control-padding
+    border-radius: $note-control-border-radius
+    background-color: transparent
+    .link
+      z-index: 1
+      transform: translateY(-1px)
+    textarea
+      position: absolute
+      top: 0
+      left: 0
+      height: 100%
+      padding: $note-control-padding
+      border-radius: 0
+      font-size: $default-font-size
+      background-color: transparent
+      visibility: hidden
+      opacity: 0
 
   // overlay
   .overlay
