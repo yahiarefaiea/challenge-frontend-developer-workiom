@@ -74,6 +74,7 @@ export class VideoCardComponent implements OnInit {
 
     // defaults
     gsap.set(writeNoteTextareaElement, { visibility: 'visible' });
+    gsap.set(element, { height: cardHeight });
     const onComplete = () => {
       gsap.set(writeNoteLinkElement, { visibility: 'hidden' });
       gsap.set(titleElement, { whiteSpace: 'nowrap', textOverflow: 'ellipsis' });
